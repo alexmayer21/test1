@@ -1,72 +1,54 @@
-<html>
-  <head>
-    <title>Captcha v3</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
- 
-    <script src="https://www.google.com/recaptcha/api.js?render=6Ld18bAdAAAAAMrGDCtOJ7YHu0e2dcZ4Kh7zm10M"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  </head>
-  <body>
-   
-    <div class="container">
-    <div class="mid">
-        <br><br>
-      <input type="button" class="btn btn-primary answer_id" id="answer_id" name="answer" value="Show Div" onclick="showDiv()" />
+<?php
+/*КЛЮЧИ*/
+define('SITE_KEY', '6Ld18bAdAAAAAMrGDCtOJ7YHu0e2dcZ4Kh7zm10M');
+define('SECRET_KEY', '6Ld18bAdAAAAAHpb3XXzRmoyhc-ifFfAZFDlLT2X');
 
-    </div>
-    <div class="mid" id="welcomeDiv"  style="display:none;">
-  <h1 style="color: #fff;">Google reCAPTHA Demo V3</h1>
-    <form id="newsletterForm" action="form.php" method="post">
-      
-      <input class="btn btn-primary answer_id"  type="submit" value="Submit">
-         
-    </form>
- </div>
-</div>
-    <script>
-    $('#newsletterForm').submit(function(event) {
-        event.preventDefault();
-       
- 
-        grecaptcha.ready(function() {
-            grecaptcha.execute('6Ld18bAdAAAAAMrGDCtOJ7YHu0e2dcZ4Kh7zm10M', {action: 'subscribe_newsletter'}).then(function(token) {
-                $('#newsletterForm').prepend('<input type="hidden" name="token" value="' + token + '">');
-                
-                $('#newsletterForm').unbind('submit').submit();
-            });;
-        });
-  });
-  </script>
-
-  <style type="text/css">
-  body {
-
-   background-image: url("background_image.jpg"); 
-   background-size: cover;
-   background-repeat: no-repeat;
-   background-color: #35b4d8;
-   min-height: 100vh;
-   
-  }
-  .mid{
-    max-width: 600px;
-    margin: 20px auto ;
-  }
-  .answer_id{
-    width: 100%;
-    font-size: 20px;
-    font-weight: bold;
-    margin: 80px auto;
-  }
-
-</style>
-<script type="text/javascript">
-  function showDiv() {
-   document.getElementById('welcomeDiv').style.display = "block";
-   document.getElementById('answer_id').style.display = "none";
+/*ОБРАБОТКА ЗАПРОСА*/
+if($_POST){
+    /*СОЗДАЕМ ФУНКЦИЮ КОТОРАЯ ДЕЛАЕТ ЗАПРОС НА GOOGLE СЕРВИС*/
+    function getCaptcha($SecretKey) {
+        $Response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".SECRET_KEY."&response={$SecretKey}");
+        $Return = json_decode($Response);
+        return $Return;
+    }
+    
+    /*ПРОИЗВОДИМ ЗАПРОС НА GOOGLE СЕРВИС И ЗАПИСЫВАЕМ ОТВЕТ*/
+    $Return = getCaptcha($_POST['g-recaptcha-response']);
+    /*ВЫВОДИМ НА ЭКРАН ПОЛУЧЕННЫЙ ОТВЕТ*/
+    var_dump($Return);
+    
+    /*ЕСЛИ ЗАПРОС УДАЧНО ОТПРАВЛЕН И ЗНАЧЕНИЕ score БОЛЬШЕ 0,5 ВЫПОЛНЯЕМ КОД*/
+    if($Return->success == true && $Return->score > 0.5){
+        echo "Succes!";
+    }
+    else {
+        echo "You are Robot";
+    }
 }
-</script>
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+   
+   <form action="/" method="POST">
+       <input type="text" name="name" /><br/><br/>
+       <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response" /><br/><br/>
+       <input type="text" value="Submit" />
+   </form>
+   
+    <script src="https://www.google.com/recaptcha/api.js?render=<?php echo SITE_KEY?>"></script>
+    <script>
+        grecaptcha.ready(function() {
+            grecaptcha.execute('<?php echo SITE_KEY;?>', {action: 'homepage'}).then(function(token) {
+                //console.log(token);
+                document.getElementById('g-recaptcha-response').value=token;
+            });
+        });
+    </script>
 
-  </body>
+</body>
 </html>
