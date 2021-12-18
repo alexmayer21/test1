@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
  
-    <script src="https://www.google.com/recaptcha/api.js?render=6Le8yLAdAAAAAB8zJtIJm5gasKayfAGIKeLZsBTb"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=6Ld18bAdAAAAAMrGDCtOJ7YHu0e2dcZ4Kh7zm10M"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   </head>
   <body>
@@ -30,7 +30,7 @@
        
  
         grecaptcha.ready(function() {
-            grecaptcha.execute('6Le8yLAdAAAAAB8zJtIJm5gasKayfAGIKeLZsBTb', {action: 'subscribe_newsletter'}).then(function(token) {
+            grecaptcha.execute('6Ld18bAdAAAAAMrGDCtOJ7YHu0e2dcZ4Kh7zm10M', {action: 'subscribe_newsletter'}).then(function(token) {
                 $('#newsletterForm').prepend('<input type="hidden" name="token" value="' + token + '">');
                 
                 $('#newsletterForm').unbind('submit').submit();
