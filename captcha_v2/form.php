@@ -8,7 +8,7 @@
       echo '<h2>Please check the the captcha form.</h2>';
       exit;
     }
-    $secretKey = "6LfAzrAdAAAAAFYKh1Pb6fsxcECKU-5JZEmn0ppF";
+    $secretKey = "6Ld18bAdAAAAAHpb3XXzRmoyhc-ifFfAZFDlLT2X";
     $ip = $_SERVER['REMOTE_ADDR'];
     // post request to server
     $url = 'https://www.google.com/recaptcha/api/siteverify?secret=' . urlencode($secretKey) .  '&response=' . urlencode($captcha);
