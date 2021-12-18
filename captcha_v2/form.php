@@ -17,7 +17,7 @@
     // should return JSON with success as true
     if($responseKeys["success"]) {
             echo '<h2>Thanks for posting comment</h2>';
-            header('Location: http://google.com');
+            header('Location:http://google.com');
             exit;
     } else {
             echo '<h2>You are spammer ! Get the @$%K out</h2>';
